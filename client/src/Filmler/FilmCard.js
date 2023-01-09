@@ -9,6 +9,7 @@ export default function FilmCard(props) {
 
   const { saveList, savedSet } = props;
   console.log(saveList);
+  let newSaveList = [...saveList];
   // URL'den alınan :id parametresini bu değişkene aktarın
 
   useEffect(() => {
@@ -17,7 +18,7 @@ export default function FilmCard(props) {
       .then((response) => {
         // Bu kısmı log statementlarıyla çalışın
         // ve burdan gelen response'u 'movie' e aktarın
-        console.log(response.data);
+
         setMovie(response.data);
       })
       .catch((error) => {
@@ -29,17 +30,13 @@ export default function FilmCard(props) {
 
   // Yalnızca esnek görevlere geçtiğinizde burdaki yorum etiketini kaldırın
   const filmiKaydet = (event) => {
-    console.log("içerdema");
-    console.log(event);
     if (saveList.length === 0) {
-      saveList.push(movie);
-      savedSet(saveList);
+      newSaveList.push(movie);
+      savedSet(newSaveList);
     } else {
-      for (let i = 0; i < saveList.length; i++) {
-        if (saveList[i].id !== event) {
-          saveList.push(event);
-          savedSet(event);
-        }
+      if (!saveList.includes(movie)) {
+        newSaveList.push(movie);
+        savedSet(newSaveList);
       }
     }
   };
